@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#ec1f55" />
+
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#ec1f55" />
+
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ec1f55" />
+	  
+    <title> Letter</title>
+	   <link rel="shortcut icon"  class="favicon" href="sing.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link type="image/png" sizes="96x96" rel="icon" href=".../icons8-airpods 3-fluent-96.png">
+
+         <!-- Intro.js CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css"
+    />
+    <style>
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+
+body {
+	font-family: 'Indie Flower', cursive !important;
+  background: #d1496d; /*CAPE HONEY*/
+	margin: 0px;
+	padding: 0px;
+}
+
+::selection {
+	background: transparent;
+}
+
+h4 {
+	font-size: 26px;
+	line-height: 1px;
+	font-family: 'Amatic SC', cursive !important;
+}
+
+.color1{color:#1BBC9B}/*MOUNTAIN MEADOW*/
+.color2{color:#C0392B/*TALL POPPY*/}
+
+
+.card {
+	color: #013243; /*SHERPA BLUE*/
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 280px;
+	height: 400px;
+	background: #e0e1dc;
+	transform-style: preserve-3d;
+	transform: translate(-50%,-50%) perspective(2000px);
+	box-shadow: inset 300px 0 50px rgba(0,0,0,.5), 20px 0 60px rgba(0,0,0,.5);
+	transition: 1s;
+}
+
+.card:hover {
+	transform: translate(-50%,-50%) perspective(2000px) rotate(15deg) scale(1.2);
+	box-shadow: inset 20px 0 50px rgba(0,0,0,.5), 0 10px 100px rgba(0,0,0,.5);
+}
+
+.card:before {
+	content:'';
+	position: absolute;
+	top: -5px;
+	left: 0;
+	width: 100%;
+	height: 5px;
+	background: #BAC1BA;
+	transform-origin: bottom;
+	transform: skewX(-45deg);
+}
+
+.card:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: -5px;
+	width: 5px;
+	height: 100%;
+	background: #92A29C;
+	transform-origin: left;
+	transform: skewY(-45deg);
+}
+
+.card .imgBox {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	transform-origin: left;
+	transition: .7s;
+}
+
+.card .bark {
+	position: absolute;
+	background: #e0e1dc;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transition: .7s;
+}
+
+.card .imgBox img {
+	min-width: 250px;
+	max-height: 400px;
+}
+
+.card:hover .imgBox {
+	transform: rotateY(-135deg);
+}
+
+.card:hover .bark {
+	opacity: 1;
+	transition: .6s;
+  box-shadow: 300px 200px 100px rgba(0, 0, 0, .4) inset;
+}
+
+.card .details {
+	position: absolute;
+	top: 0;
+	left: 0;
+	box-sizing: border-box;
+	padding: 0 0 0 10px;
+	z-index: -1;
+	margin-top: 70px;
+}
+
+.card .details p {
+	font-size: 15px;
+	line-height: 5px;
+	transform: rotate(-10deg);
+	padding: 0 0 0 20px;
+}
+
+.card .details h4 {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.confetti {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  user-select: none;
+}
+
+.btn-gift{
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 24px;
+    color: white;
+    background-color: rebeccapurple;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+    }
+
+body {
+  cursor: pointer;
+}
+.name {
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 36px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 37%;
+  color: rebeccapurple;
+  font-family: "Righteous", cursive;
+  font-size: 93px;
+  letter-spacing: 10px;
+  text-shadow: 2px 4px 11px rgb(0 0 0 / 28%);
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+}
+
+           
+    </style>
+  </head>
+  <body>
+
+    	<div class="card">
+
+           
+        
+		<div class="imgBox">
+			<div class="bark"></div>
+			<img width="100%" src="assests/img/card.jpg">
+		</div>
+		<div class="details">
+			<h4 class="color1">Birthday Card</h2>
+			<h4 class="color2 margin">(HAPPY BIRTHDAY)</h3>
+			<p>Dear Sakshi 🎀,</p>
+
+      <p>You shine like a </p>
+      <p> shine like bright . </p><p> star </p>
+      <p> with your brightness. </p><p> I hope this year brings you peace,</p>
+      <p> happiness, and success in everything you do.</p>
+			
+			<p class="text-right">Happy Birthday !!</p>
+			<p class="text-right">♥Jatin</p>
+		</div>
+	</div>
+   
+    <button class="btn-gift"><a href="main.html">Gift🎁 ?</a></button>
+    <canvas class="confetti" id="canvas"></canvas>
+
+  <script>
+    //-----------Var Inits--------------
+canvas = document.getElementById("canvas");
+ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+cx = ctx.canvas.width / 2;
+cy = ctx.canvas.height / 2;
+
+let confetti = [];
+const confettiCount = 300;
+const gravity = 0.5;
+const terminalVelocity = 5;
+const drag = 0.075;
+const colors = [
+{ front: 'red', back: 'darkred' },
+{ front: 'green', back: 'darkgreen' },
+{ front: 'blue', back: 'darkblue' },
+{ front: 'yellow', back: 'darkyellow' },
+{ front: 'orange', back: 'darkorange' },
+{ front: 'pink', back: 'darkpink' },
+{ front: 'purple', back: 'darkpurple' },
+{ front: 'turquoise', back: 'darkturquoise' }];
+
+
+//-----------Functions--------------
+resizeCanvas = () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  cx = ctx.canvas.width / 2;
+  cy = ctx.canvas.height / 2;
+};
+
+randomRange = (min, max) => Math.random() * (max - min) + min;
+
+initConfetti = () => {
+  for (let i = 0; i < confettiCount; i++) {
+    confetti.push({
+      color: colors[Math.floor(randomRange(0, colors.length))],
+      dimensions: {
+        x: randomRange(10, 20),
+        y: randomRange(10, 30) },
+
+      position: {
+        x: randomRange(0, canvas.width),
+        y: canvas.height - 1 },
+
+      rotation: randomRange(0, 2 * Math.PI),
+      scale: {
+        x: 1,
+        y: 1 },
+
+      velocity: {
+        x: randomRange(-25, 25),
+        y: randomRange(0, -50) } });
+
+
+  }
+};
+
+//---------Render-----------
+render = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  confetti.forEach((confetto, index) => {
+    let width = confetto.dimensions.x * confetto.scale.x;
+    let height = confetto.dimensions.y * confetto.scale.y;
+
+    // Move canvas to position and rotate
+    ctx.translate(confetto.position.x, confetto.position.y);
+    ctx.rotate(confetto.rotation);
+
+    // Apply forces to velocity
+    confetto.velocity.x -= confetto.velocity.x * drag;
+    confetto.velocity.y = Math.min(confetto.velocity.y + gravity, terminalVelocity);
+    confetto.velocity.x += Math.random() > 0.5 ? Math.random() : -Math.random();
+
+    // Set position
+    confetto.position.x += confetto.velocity.x;
+    confetto.position.y += confetto.velocity.y;
+
+    // Delete confetti when out of frame
+    if (confetto.position.y >= canvas.height) confetti.splice(index, 1);
+
+    // Loop confetto x position
+    if (confetto.position.x > canvas.width) confetto.position.x = 0;
+    if (confetto.position.x < 0) confetto.position.x = canvas.width;
+
+    // Spin confetto by scaling y
+    confetto.scale.y = Math.cos(confetto.position.y * 0.1);
+    ctx.fillStyle = confetto.scale.y > 0 ? confetto.color.front : confetto.color.back;
+
+    // Draw confetti
+    ctx.fillRect(-width / 2, -height / 2, width, height);
+
+    // Reset transform matrix
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  });
+
+  // Fire off another round of confetti
+  if (confetti.length <= 10) initConfetti();
+
+  window.requestAnimationFrame(render);
+};
+
+//---------Execution--------
+initConfetti();
+render();
+
+//----------Resize----------
+window.addEventListener('resize', function () {
+  resizeCanvas();
+});
+
+//------------Click------------
+window.addEventListener('click', function () {
+  initConfetti();
+});</script>
+  </body>
+</html>

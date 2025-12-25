@@ -1,0 +1,773 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#ec1f55" />
+
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#ec1f55" />
+
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ec1f55" />
+  <title>Music player</title>
+  <link rel="shortcut icon" class="favicon" href="6.jpg" type="image/x-icon" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+    crossorigin="anonymous"
+  />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Intro.js CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css"
+  />
+
+  <style>
+    :root {
+      --primary-color: #ec1f55;
+      --text-color: #333;
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: inherit;
+    }
+
+    body {
+      background: rgba(210, 182, 255, 0.52);
+      background: url("6.jpg");
+      background-position: center;
+      object-fit: contain;
+      background-size: cover;
+    }
+
+    html {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .player {
+      position: relative;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .player .icon-pause {
+      display: none;
+    }
+
+    .player.playing .icon-pause {
+      display: inline-block;
+    }
+
+    .player.playing .icon-play {
+      display: none;
+    }
+
+    .dashboard {
+      margin: auto;
+      padding: 16px 16px 14px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      max-width: 480px;
+      z-index: 5;
+      border-bottom: 1px solid #ebebeb;
+
+      background-position: center;
+      background-size: auto;
+
+      background: rgba(219, 215, 227, 0.25);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(4.7px);
+      -webkit-backdrop-filter: blur(4.7px);
+      border: 1px solid rgba(210, 182, 255, 0.78);
+    }
+
+    /* HEADER */
+    header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    header h4 {
+      color: var(--primary-color);
+      font-size: 12px;
+    }
+
+    header h2 {
+      color: var(--text-color);
+      font-size: 20px;
+    }
+
+    /* CD */
+    .cd {
+      display: flex;
+      margin: auto;
+      width: 270px;
+      border: 13px solid rgb(211, 181, 186);
+      border-radius: 30%;
+      border-radius: 132px;
+      background: rgba(231, 158, 225, 0.29);
+      box-shadow: 19px 19px 37px #b3b3b3, 15px 10px 60px #efa5b9;
+      -webkit-backdrop-filter: blur(5.3px);
+    }
+
+    .cd-thumb {
+      width: 100%;
+      padding-top: 100%;
+      border-radius: 50%;
+      background-color: #333;
+      background-size: cover;
+      margin: auto;
+      z-index: 5;
+    }
+
+    /* CONTROL */
+    .control {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 18px 0 8px 0;
+    }
+
+    .control .btn {
+      color: #666;
+      padding: 18px;
+      font-size: 18px;
+    }
+
+    .control .btn.active {
+      color: var(--primary-color);
+      border-radius: 132px;
+      background: linear-gradient(145deg, #f0f0f0, #cacaca);
+      box-shadow: 19px 19px 37px #b3b3b3, -19px -19px 37px #ffffff;
+    }
+
+    .control .btn-toggle-play {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 24px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary-color);
+    }
+
+    .progress {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 6px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: 0.2s;
+      transition: opacity 0.2s;
+    }
+
+    .progress::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 6px;
+      background-color: var(--primary-color);
+      cursor: pointer;
+    }
+
+    /* PLAYLIST */
+    .playlist {
+      margin-top: 408px;
+      padding: 12px;
+    }
+
+    .song {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      /* background-color: #fff; */
+      background: rgba(255, 255, 255, 0.45);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(4.7px);
+      -webkit-backdrop-filter: blur(4.7px);
+      border: 1px solid rgba(210, 182, 255, 0.78);
+      padding: 8px 16px;
+      border-radius: 5px;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .song.active {
+      background-color: var(--primary-color);
+      scale: 1.05;
+      z-index: -5; /* From https://css.glass */
+      background: var(--primary-color);
+      border-radius: 11px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5.3px);
+      -webkit-backdrop-filter: blur(5.3px);
+      border: 1px solid rgba(255, 54, 238, 0.77);
+    }
+
+    .song:active {
+      opacity: 0.8;
+    }
+
+    .song.active .option,
+    .song.active .author,
+    .song.active .title {
+      color: #fff;
+    }
+
+    .song .thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-size: cover;
+      margin: 0 8px;
+    }
+
+    .song.active .thumb {
+      border: 3px double rgb(235, 178, 178);
+    }
+
+    .song .body {
+      flex: 1;
+      padding: 0 16px;
+    }
+
+    .song .title {
+      font-size: 18px;
+      color: var(--text-color);
+    }
+
+    .song .author {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .song .option {
+      padding: 16px 8px;
+      color: #999;
+      font-size: 18px;
+    }
+
+    .introjs-tooltip {
+      background-color: #ec1f55;
+      border: 2px solid rgba(12, 135, 121, 0.47);
+      color: #f5f5dc;
+      font-family: "Almendra SC", cursive !important;
+
+      border-radius: 16px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 15px rgba(11, 179, 159, 0.607);
+    }
+
+    .introjs-tooltip-title {
+      color: #f9d923;
+      font-size: 22px;
+    }
+
+    .introjs-tooltiptext {
+      color: #dadada;
+      font-size: 16px;
+      line-height: 1.2;
+      
+    }
+
+    .introjs-helperLayer,
+    .introjs-tooltipReferenceLayer {
+      z-index: 99999 !important; /* Ensure they're not hidden */
+    }
+
+    .introjs-overlay {
+      background: rgba(25, 168, 168, 0.6) !important;
+      z-index: 99998 !important;
+    }
+
+    .introjs-donebutton,
+    .introjs-nextbutton,
+    .introjs-prevbutton {
+      color: white;
+      font-family: "Almendra SC", serif;
+      font-size: 16px;
+      transition: all 0.5s;
+      /* From https://css.glass */
+      background: rgba(102, 161, 152, 0.47);
+      border-radius: 16px;
+      box-shadow: 0 1px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(102, 161, 152, 0.93);
+    }
+
+    .introjs-donebutton:hover {
+      background-color: rgba(162, 171, 170, 0.47);
+
+      color: rgba(102, 161, 152, 0.47);
+    }
+
+    /* .btn-nextpage {
+      position: absolute;
+      left: 50%;
+      
+      transform: translate(-50%,-50%);
+      margin: 20px 0px;
+       
+      color: #ec1f55;
+      
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+
+      background-color: #ebebeb;
+      background: rgba(255, 255, 255, 0.45);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(4.7px);
+      -webkit-backdrop-filter: blur(4.7px);
+      border: 1px solid rgba(210, 182, 255, 0.78);
+      padding: 8px 16px;
+      border-radius: 5px;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+      transition: 1s all;
+    }
+   .btn-nextpage:hover{
+      background-color: #b4662e;
+      color: beige;
+      font-weight: 500;
+      padding: 8px 20px;
+      font-family: "Pacifico", cursive;
+          border: none;
+    }
+    .new:hover {
+        background-color: #8b4513;
+      } */
+  </style>
+</head>
+
+<body class="">
+  <div class="player">
+    <!-- Dashboard -->
+    <div class="dashboard">
+      <!-- Header -->
+      <header>
+        <h4>Now playing:</h4>
+        <h2>String 57th & 9th</h2>
+      </header>
+
+      <!-- CD -->
+      <div class="cd">
+        <div
+          class="cd-thumb"
+          style="
+            background-image: url('https://i.ytimg.com/vi/jTLhQf5KJSc/maxresdefault.jpg');
+          "
+        ></div>
+      </div>
+
+      <!-- Control -->
+      <div class="control">
+        <div class="btn btn-repeat">
+          <i class="fas fa-redo"></i>
+        </div>
+        <div class="btn btn-prev">
+          <i class="fas fa-step-backward"></i>
+        </div>
+        <div class="btn btn-toggle-play">
+          <i class="fas fa-pause icon-pause"></i>
+          <i class="fas fa-play icon-play"></i>
+        </div>
+        <div class="btn btn-next">
+          <i class="fas fa-step-forward"></i>
+        </div>
+        <div class="btn btn-random">
+          <i class="fas fa-random"></i>
+        </div>
+      </div>
+
+      <input
+        id="progress"
+        class="progress"
+        type="range"
+        value="0"
+        step="1"
+        min="0"
+        max="100"
+      />
+
+      <audio id="audio" preload="" src=""></audio>
+    </div>
+
+    <!-- Playlist -->
+    <div class="playlist animate__slideInUp"></div>
+    <!--<a class=" btn-nextpage" href="harrypotter.html"> Adventure ? </a>-->
+  </div>
+
+  <!-- Intro.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/intro.js/minified/intro.min.js"></script>
+  <script>
+    introJs()
+      .setOptions({
+        steps: [
+          {
+            element: ".click-icon",
+            intro: ` <p>It's for <strong>Sakshi </strong> 🎀,</br> Incase it's not working do below  given trick .</p> <video   width="250" height="250" autoplay="true"  controls> <source autoplay="true"  src="introvid.mp4" type="video/mp4"> Your browser does not support the video tag. </video> `,
+          },
+        ],
+        showProgress: false,
+        showBullets: false,
+        nextLabel: "Next →",
+        prevLabel: "← Back",
+        doneLabel: "Done ✨",
+      })
+      .start();
+  </script>
+
+  <script>
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
+
+    const PLAYER_STORAGE_KEY = "MUSIC_PLAYER_TienHieu";
+
+    const player = $(".player");
+    const cd = $(".cd");
+    const heading = $("header h2");
+    const cdThumb = $(".cd-thumb");
+    const audio = $("#audio");
+    const playBtn = $(".btn-toggle-play");
+    const progress = $("#progress");
+    const prevBtn = $(".btn-prev");
+    const nextBtn = $(".btn-next");
+    const randomBtn = $(".btn-random");
+    const repeatBtn = $(".btn-repeat");
+    const playlist = $(".playlist");
+
+    const app = {
+      //Lấy ra chỉ mục đầu tiên của mảng
+      currentIndex: 0,
+      isPlaying: false,
+      isRandom: false,
+      isRepeat: false,
+      config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
+      songs: [
+     
+
+        {
+          name: " pretty little baby",
+
+          singer: "Connie Francis",
+          path: "assests/songs/Pretty Little Baby.mp3",
+          image: "assests/img/prettty.jpg",
+        },
+          
+         {
+           name: "Pretty Woman prism",
+           singer: "Shankar Mahadevan",
+           path: "assests/songs/Pretty Woman - Kal Ho Naa Ho _ Shah Rukh Khan _ Preity _ Shankar Mahadevan _ SEL _ 4K Video-[AudioTrimmer.com].mp3",
+         image: "assests/img/prettywoman.jpg",
+         },
+        {
+          name: "Tere Naina",
+          singer: "Shankar Eshan Loy",
+          path: "assests/songs/Shankar Eshan Loy - Tere Naina Lyric Video - My Name is Khan _ Shahrukh Khan _ Kajol(1)-[AudioTrimmer.com].mp3",
+          image: "assests/img/terenaina.jpg",
+        },
+
+        {
+          name: "Chand Baliyan",
+          singer: "Aaditya A ",
+          path: "assests/songs/chand baliyan.mp3",
+        
+          image: "assests/img/baliyan.jpg",
+        },
+        
+      
+       
+        {
+          name: "Main tera <333..",
+          singer: "Arijit Singh ,Pritam_ Amitabh",
+          path: "assests/songs/Kalank Title Track - Lyrical _ Alia Bhatt , Varun Dhawan _ Arijit Singh _ Pritam_ Amitabh-[AudioTrimmer.com].mp3",
+          image: "https://harshu1296.github.io/gifs/main%20tera.gif",
+            },
+
+       
+
+        
+         {
+           name: "Kyon",
+           singer: "Pritam ,Papon ,Sunidhi",
+           path: "assests/songs/Kyon - Barfi_Pritam_Papon_Sunidhi_Ranbir_Priyanka.mp3",
+          image: "assests/img/kyon.jpg",
+         },
+         
+      ],
+
+      setConfig: function (key, value) {
+        this.config[key] = value;
+        localStorage.setItem(PLAYER_STORAGE_KEY, JSON.stringify(this.config));
+      },
+
+      render: function () {
+        const htmls = this.songs.map((song, index) => {
+          return `
+        <div class="song ${
+          index === this.currentIndex ? "active" : ""
+        }" data-index="${index}">
+            <div class="thumb"
+                style="background-image: url('${song.image}')">
+            </div>
+            <div class="body">
+                <h3 class="title">${song.name}</h3>
+                <p class="author">${song.singer}</p>
+            </div>
+            <div class="option">
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+        </div>
+    `;
+        });
+        playlist.innerHTML = htmls.join("");
+      },
+
+      defineProperties: function () {
+        Object.defineProperty(this, "currentSong", {
+          get: function () {
+            return this.songs[this.currentIndex];
+          },
+        });
+      },
+
+      handleEvents: function () {
+        const _this = this;
+
+        //Lấy ra kích thước mặc định của CD
+        const cdWidth = cd.offsetWidth;
+
+        //Xử lý  CD quay và dừng
+        const cdThumbAnimate = cdThumb.animate(
+          [{ transform: "rotate(720deg)" }],
+          {
+            duration: 12000, //10 seconds
+            itetations: Infinity,
+          }
+        );
+        cdThumbAnimate.pause();
+
+        // Xử lý phóng to thu nhỏ CD
+        (document.onscroll = function () {
+          const scrollTop =
+            window.scrollY || document.documentElement.scrollTop;
+          const newCdWidth = cdWidth - scrollTop; //Kích thước cd trừ đi kích thước kéo lên để tính ra kích thước cần giảm
+
+          cd.style.width = newCdWidth > 0 ? newCdWidth + "px" : 0;
+          cd.style.opacity = newCdWidth / cdWidth;
+        }),
+          //Xử lý khi click play
+          (playBtn.onclick = function () {
+            if (_this.isPlaying) {
+              audio.pause();
+            } else {
+              audio.play();
+            }
+          });
+
+        //Khi song được play
+        audio.onplay = function () {
+          _this.isPlaying = true;
+          player.classList.add("playing");
+          cdThumbAnimate.play();
+        };
+
+        //Khi song bị pause
+        audio.onpause = function () {
+          _this.isPlaying = false;
+          player.classList.remove("playing");
+          cdThumbAnimate.pause();
+        };
+
+        //Khi tiến độ bài hát thay đổi
+        audio.ontimeupdate = function () {
+          if (audio.duration) {
+            const progressPercent = Math.floor(
+              (audio.currentTime / audio.duration) * 100
+            );
+            progress.value = progressPercent;
+          }
+        };
+
+        //Xử lý khi tua song
+        progress.onchange = function (e) {
+          const seekTime = (audio.duration / 100) * e.target.value;
+          audio.currentTime = seekTime;
+        };
+
+        //Khi next song
+        nextBtn.onclick = function () {
+          if (_this.isRandom) {
+            _this.randomSong();
+          } else {
+            _this.nextSong();
+          }
+          audio.play();
+          _this.render();
+          _this.scrollToActiveSong();
+        };
+
+        //Khi prev song
+        prevBtn.onclick = function () {
+          if (_this.isRandom) {
+            _this.randomSong();
+          } else {
+            _this.prevSong();
+          }
+          audio.play();
+          _this.render();
+        };
+
+        //Xử lý bật tắt random Song
+        randomBtn.onclick = function (e) {
+          _this.isRandom = !_this.isRandom;
+          _this.setConfig("isRandom", _this.isRandom);
+          randomBtn.classList.toggle("active", _this.isRandom);
+        };
+
+        //Xử lý lặp lại một Song
+        repeatBtn.onclick = function (e) {
+          _this.isRepeat = !_this.isRepeat;
+          _this.setConfig("isRepeat", _this.isRepeat);
+          repeatBtn.classList.toggle("active", _this.isRepeat);
+        };
+
+        //Xử lý next song khi audio ended
+        audio.onended = function () {
+          if (_this.isRepeat) {
+            audio.play();
+          } else {
+            nextBtn.click();
+          }
+        };
+        // Lắng nghe hành vi click vào playlist
+        playlist.onclick = function (e) {
+          const songNode = e.target.closest(".song:not(.active)");
+
+          if (songNode || e.target.closest(".options")) {
+            //Xử lý click vào song
+            if (songNode) {
+              _this.currentIndex = Number(songNode.dataset.index);
+              _this.loadCurrentSong();
+              audio.play();
+              _this.render();
+            }
+            //Xử lý khi click vào song options
+            if (e.target.closest(".options")) {
+            }
+          }
+        };
+      },
+
+      scrollToActiveSong: function () {
+        setTimeout(() => {
+          $(".song.active").scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        }, 200);
+      },
+
+      loadCurrentSong: function () {
+        heading.textContent = this.currentSong.name;
+        cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
+        audio.src = this.currentSong.path;
+      },
+
+      loadConfig: function () {
+        this.isRandom = this.config.isRandom;
+        this.isRepeat = this.config.isRepeat;
+      },
+
+      nextSong: function () {
+        this.currentIndex++;
+
+        if (this.currentIndex >= this.songs.length) {
+          this.currentIndex = 0;
+        }
+        this.loadCurrentSong();
+      },
+
+      prevSong: function () {
+        this.currentIndex--;
+        if (this.currentIndex < 0) {
+          this.currentIndex = this.songs.length - 1;
+        }
+        this.loadCurrentSong();
+      },
+
+      randomSong: function () {
+        let newIndex;
+        do {
+          newIndex = Math.floor(Math.random() * this.songs.length);
+        } while (newIndex === this.currentIndex);
+
+        this.currentIndex = newIndex;
+        this.loadCurrentSong();
+      },
+
+      start: function () {
+        //Gán cấu hình từ config vào ứng dụng
+        this.loadConfig();
+        // Định nghĩa các thuộc tính cho object
+        this.defineProperties();
+
+        // Lắng nghe / xử lý các sự kiện (DOM Events)
+        this.handleEvents();
+
+        // Tải thông tin bài đầu tiên vào UI khi chạy ứng dụng
+        this.loadCurrentSong();
+
+        // Render playlists
+        this.render();
+
+        //Hiển thị trạng thái ban đầu của button
+        randomBtn.classList.toggle("active", this.isRandom);
+        repeatBtn.classList.toggle("active", this.isRepeat);
+      },
+    };
+
+    app.start = function () {
+      this.loadConfig();
+      this.defineProperties();
+      this.handleEvents();
+      this.loadCurrentSong();
+      this.render();
+      randomBtn.classList.toggle("active", this.isRandom);
+      repeatBtn.classList.toggle("active", this.isRepeat);
+    };
+
+    app.start();
+
+    //########################### this added in last
+
+    // Preload audio files
+    function preloadAudio() {
+      app.songs.forEach((song) => {
+        const audio = new Audio();
+        audio.src = song.path;
+        audio.preload = "auto";
+      });
+    }
+
+    // Call this after defining your songs
+    preloadAudio();
+
+    //  app.start();
+  </script>
+</body>

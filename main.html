@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#ec1f55" />
+
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#ec1f55" />
+
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ec1f55" />
+	  
+    <title> Letter</title>
+	   <link rel="shortcut icon"  class="favicon" href="sing.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link type="image/png" sizes="96x96" rel="icon" href=".../icons8-airpods 3-fluent-96.png">
+
+         <!-- Intro.js CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cookie&family=Sacramento&family=Poppins:wght@300&family=Quicksand:wght@500&display=swap");
+
+      body {
+        margin:auto auto;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-size: 400% 400%;
+        font-family: "Poppins", sans-serif;
+        overflow: hidden;
+        background: rgba(210, 182, 255, 0.52);
+        background: url("assets/imag/6.jpg"); 
+        background-position: center;
+        object-fit: contain;
+        background-size: cover;
+      }
+
+     
+
+      .container {
+        
+        position: relative;
+        width: 250px!important;
+        max-width: 800px;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 25px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+      }
+
+      .container.fade-out {
+        transform: translateY(-100vh) rotate3d(1, 1, 0, 45deg);
+        opacity: 0;
+      }
+
+      .letter {
+        font-size: 28px;
+        line-height: 1.8;
+        font-family: "Cookie", cursive;
+        color: #b90031 ;
+        font-weight: 500;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        white-space: pre-wrap;
+        margin-bottom: 50px;
+        min-height: 300px;
+      }
+
+      .signature {
+        font-family: "Sacramento", cursive;
+        font-size: 36px;
+        color: white;
+        text-align: right;
+        margin-top: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1s ease, transform 1s ease;
+      }
+
+      .signature.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .next-button {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.9);
+        padding: 15px 40px;
+        font-size: 24px;
+        font-weight: 600;
+        font-family: "Sacramento", cursive;
+        background: linear-gradient(45deg, #ec1f55, #ffabab);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.5s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .next-button.show {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+
+      .next-button:hover {
+        transform: translateX(-50%) scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .loading-hearts {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        gap: 15px;
+      }
+
+      .loading-hearts span {
+        display: inline-block;
+        font-size: 45px;
+        animation: heartBeat 1.5s infinite;
+      }
+
+      .loading-hearts span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .loading-hearts span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes heartBeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.3);
+        }
+      }
+
+      .loading-hearts.show {
+        display: flex;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 5px;
+        height: 24px;
+        background: white;
+        margin-left: 2px;
+        animation: blink 1s infinite;
+        vertical-align: middle;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .container {
+        position: relative;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh; /* Limits the container's height to 80% of the screen height */
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 25px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        overflow-y: auto;
+        transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+      }
+      @media screen and (max-width:367px) {
+        .next-button img{
+             height: 100px;
+        }
+        
+      }
+
+
+        .pause{
+position: absolute;
+top: 15%;
+left: 50%;
+transform: translate(-50%,-50%);
+padding: 15px;
+		 font-size: 25px;
+        font-family: "Sacramento", cursive;
+      /* color: #3a741d; */
+      font-weight: 700;
+      text-wrap: wrap;
+       
+/* color: #3a741d; */
+color: #19a148;
+
+background: rgba(255, 255, 255, 0.15);
+        border-radius: 25px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+/*         overflow-y: auto; */
+
+        
+      }
+.click-icon{
+
+                /* background: #fff; */
+              padding: 2px;
+              height: 60px;
+              border-radius: 50%;
+              cursor: pointer; transition: transform 0.2s ease;
+}      
+
+/* 	     gift box code  */
+	    #app{
+    width: 100%;
+    position: absolute;
+    top: -80%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+}
+.gift {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  transition: 1s;
+  margin: 1em 0;
+  padding: 1em 10%;
+  display: inline-block;
+  z-index: 10;
+	animation: wiggle 2s infinite ; 
+/*   animation: dukdik 0.5s infinite; */
+}
+.gift:hover{
+  cursor: pointer;
+  transform: translateY(0);
+  
+}
+.gift-top {
+  position: relative;
+  width: 34px;
+  height: 14px;
+  background: #DC453D;
+  border-radius: 5px 5px 0 0;
+  transform: translate3d(-5%, 0, 0);
+  background-image: linear-gradient(to right, #DC453D 0%, #DC453D 44%, #FFB447 44%, #FFB447 56%, #DC453D 56%, #DC453D 100%);
+  transition: 1s;
+}
+.gift-top.boxOpen{
+  animation: box-open 1s;
+  opacity:0;
+}
+@keyframes box-open{
+  0%{
+    top:0px;
+    opacity:1;
+  }
+  100%{
+    top:-50px;
+    opacity:0;
+  }
+}
+.gift-top::before,
+.gift-top::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border: 10px solid #FFB447;
+    border-radius: 50% 50% 0 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate3d(-100%, -100%, 0) skew(10deg, 10deg);
+}
+
+.gift-top::after {
+  border-radius: 50% 50% 50% 0;
+  transform: translate3d(0, -100%, 0) skew(-10deg, -10deg);
+}
+
+
+.gift-box {
+  width: 100%;
+  height: 75%;
+  position:relative;
+  background-image: linear-gradient(to right, #C33C23 0%, #C33C23 45%, #FFB447 45%, #FFB447 55%, #C33C23  55%, #C33C23 100%);
+  border-radius: 0 0 5px 5px;
+  transition: 1s;
+}
+.gift-box.boxDown{
+  animation: box-down 1s; 
+   opacity:0; 
+}
+.title-text{
+    text-align: center;
+    font-size: 4vw;
+    color: #4C4C53;
+    position:absolute;
+    top: 20%;
+    left: 0;
+    width: 100%;
+}
+@keyframes box-down{
+  0%{
+    top:0px;
+    opacity:1;
+  }
+  100%{
+    top:50px;
+    opacity:0;
+  }  
+}
+@keyframes wiggle {
+  10% {
+    transform: rotate(7deg) translateY(0px);
+  }
+  
+  20% {
+    transform: rotate(-14deg)translateY(0px);
+  }
+  
+  30% {
+    transform: rotate(4deg)translateY(0px);
+  }
+  
+  40% {
+    transform: rotate(-2deg)translateY(0px);
+  }
+  
+  50% {
+    transform: rotate(0deg) translateY(0px);
+  }  
+  70% {
+    transform: rotate(0deg)translateY(10px);
+  }
+  
+  80% {
+    transform: rotate(0deg)translateY(-30px);
+  }
+  
+  90% {
+    transform: rotate(0deg)translateY(-5px);
+  }
+  
+  100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+}
+
+
+
+      .introjs-tooltip {
+        background-color: transparent;
+        border: 2px solid rgba(12, 135, 121, 0.47);
+        color: #f5f5dc;
+        font-family: "Almendra SC", cursive !important;
+
+        border-radius: 16px;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 0 15px #b90031;
+      }
+
+      .introjs-tooltip-title {
+        color: #f9d923;
+        font-size: 22px;
+      }
+
+      .introjs-tooltiptext {
+        color: #dadada;
+        font-size: 16px;
+        line-height: 1.2;
+      }
+
+      .introjs-helperLayer,
+      .introjs-tooltipReferenceLayer {
+        z-index: 99999 !important; /* Ensure they're not hidden */
+      }
+
+      .introjs-overlay {
+        background: rgba(25, 168, 168, 0.6) !important;
+        z-index: 99998 !important;
+      }
+
+      .introjs-donebutton,
+      .introjs-nextbutton,
+      .introjs-prevbutton {
+        color: white;
+        font-family: "Almendra SC", serif;
+        font-size: 16px;
+        transition: all 0.5s;
+        /* From https://css.glass */
+        background: rgba(102, 161, 152, 0.47);
+        border-radius: 16px;
+        box-shadow: 0 1px 40px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: 1px solid rgba(102, 161, 152, 0.93);
+      }
+
+      .introjs-donebutton:hover {
+            background-color: #d1496d;
+
+
+        color: white;
+      }
+	    
+    </style>
+  </head>
+  <body>
+    <div class="bokeh">
+      <!-- Bokeh elements added by JavaS -->
+    </div>
+    <div class="container">
+      <div class="letter"></div>
+      <div class="signature"></div>
+      <button class="next-button">Click Me ! <img height="200px" src="assests/img/click me.png" alt=""></button>
+    </div>
+
+<div class="pause " onclick="togglePlay()">
+<!-- 	<img class="click-icon"  src="output-onlinegiftools.gif" alt="pugdy penguin"/> -->
+
+<div id="app">
+        <div class="gift">
+          <div class="gift-top"></div>
+          <div class="gift-box"></div>
+        </div>
+      </div>
+
+</div>
+	
+		<audio class="audio" src="assests/songs/mix_20s (audio-joiner.com).mp3" preload="auto" autoplay type="audio" loop=""></audio>
+
+    
+    <div class="loading-hearts">
+      <span>🐧</span>
+      <span>🐧</span>
+      <span>🐧</span>
+    </div>
+
+
+     <!-- Intro.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/intro.js/minified/intro.min.js"></script>
+  <script>
+    introJs()
+      .setOptions({
+        steps: [
+          {
+            element: ".gift",
+            intro:
+              " <strong>Click me 🎁!!</strong>",
+        position:"middle",
+        
+            },
+       
+        ],
+        showProgress: false,
+        showBullets: false,
+        nextLabel: "Next →",
+        prevLabel: "← Back",
+        doneLabel: "Done ✨",
+      })
+      .start();
+  </script>
+
+    <script>
+      const loveLetter = `Happy Birthday!! 𐙚 ̊🪞🦢 Now Listen to my heart 🤍 🎶 tune for you 
+      ,its for Sakshi 🎀 ,
+      Made with love  💝🫶🏻 
+      by  ~ Jatin 𐙚 ̊
+   `;
+
+     
+      const signature =
+        "  ";
+
+      const letter = document.querySelector(".letter");
+      const signatureElement = document.querySelector(".signature");
+      const nextButton = document.querySelector(".next-button");
+      const loadingHearts = document.querySelector(".loading-hearts");
+
+      let letterIndex = 0;
+      let isWriting = true;
+
+      // Add cursor element
+      const cursor = document.createElement("span");
+      cursor.className = "cursor";
+      letter.appendChild(cursor);
+
+      function writeLetter() {
+        if (letterIndex < loveLetter.length) {
+          letter.textContent = loveLetter.substring(0, letterIndex + 1);
+          letter.appendChild(cursor);
+          letterIndex++;
+
+          const currentChar = loveLetter[letterIndex - 1];
+          let delay = 50;
+
+          if (/[,.!]/.test(currentChar)) delay = 400;
+          if (/\n/.test(currentChar)) delay = 800;
+
+          setTimeout(writeLetter, delay);
+        } else {
+          isWriting = false;
+          cursor.remove();
+
+          setTimeout(() => {
+            signatureElement.textContent = signature;
+            signatureElement.classList.add("show");
+
+            setTimeout(() => {
+              nextButton.classList.add("show");
+            }, 1000);
+          }, 500);
+        }
+      }
+
+      setTimeout(writeLetter, 1000);
+
+      nextButton.addEventListener("click", () => {
+        document.querySelector(".container").classList.add("fade-out");
+        loadingHearts.classList.add("show");
+
+        setTimeout(() => {
+          window.location.href = "test.html";
+        }, 2000);
+      });
+    </script>
+
+
+<script></script>
+    <script>
+
+  var pause = document.querySelector(".pause");
+var audio = document.querySelector(".audio");
+
+function togglePlay() {
+	if (audio.paused) {
+		audio.play();
+		pause.innerHTML = " Tuned🐧 !!";
+    pause.style.color = "#b90031";
+	} else {
+		audio.pause();
+		pause.innerHTML = " MUSIC ON 🐧 !!";
+		pause.style.color = "#3a741d";
+	}
+}
+</script>
+
+	   <!-- gift box  -->
+    <script>
+      $(function () {
+        // $('.gift').clickFireworks({
+        //     id: 'fireworks', // canvas id
+        //     appendTo: 'body', // append canvas to where, default is body
+        //     zIndex: 2 // canvas z-index, make it higher than anything on the page
+        // });
+        $(".gift").click(function () {
+          $(this).find(".gift-top").addClass("boxOpen");
+        });
+      });
+    </script>
+  </body>
+</html>
